@@ -1,16 +1,21 @@
-#input สินค้า n ชิ้นแต่ละชิ้นหนัก W กิโลกรม / บรรจุใส่กล่องด้ไม่เกิน k 
-#1. สิ่งของต้องน้ำหนักรวมกันไม่เกินที่กล่อรับไหว
-#2. ของที่อย฿่ในกล่องเดียวกันต้องเป็นของที่อยู่ติดกัน
-#
-# ทุกกล่องรับน้ำหนักได้เท่ากัน หาว่ากล่องนึงจะรับน้ำหนักได้น้อยสุดเท่าไร
+def minweight(order, box):
+    if box == 1:
+        return sum(order)
 
-#hint Optimization Problem
-# 
-#
+    weight = 999999999999999999999999999999999999999999999999999999999999999
+    for i in range(len(order)):
 
+        if len(order[i:]) < box - 1:
+            break
 
-inp = input("Enter Input : ").split("/")
-n = list(map(int,inp[0].split()))
-k = int(inp[1])
+        this_box    =   sum(order[:i])
+        other_box   =   minweight(order[i:], box - 1)
+        weight  =   min(max(this_box, other_box), weight)
+            
+    return weight
 
-
+txt = 'Minimum weigth for '
+inp = input('Enter Input : ').split('/')
+order, box = list(map(int, inp[0].split())), int(inp[1])
+txt = txt + str(box) + ' box(es) = ' + str(minweight(order, int(box)))
+print(txt)
